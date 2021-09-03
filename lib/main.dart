@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+//import 'package:flutter/widgets.dart';
 
 void main() => runApp(MyApp());
 
@@ -42,11 +42,17 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold (
-      body: Container (child: Column(
+      body: Column(
         textDirection: TextDirection.ltr,
         crossAxisAlignment: CrossAxisAlignment.start,
+        verticalDirection: VerticalDirection.down,
         children: [
-          TextField(),
+          TextField(
+            readOnly: true, // пробовал false и совсем без этого параметра...
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: "Введите таску",
+          ),),
           ListView.builder(
             padding: const EdgeInsets.all(8),
             itemCount: tasks.length,
@@ -59,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
             label: Text("Добавить таску")
           ),
         ]
-      ),)
+      )
     );
   }
 }
