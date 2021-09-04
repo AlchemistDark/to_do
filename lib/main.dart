@@ -48,17 +48,23 @@ class _MyHomePageState extends State<MyHomePage> {
         verticalDirection: VerticalDirection.down,
         children: [
           TextField(
-            readOnly: true, // пробовал false и совсем без этого параметра...
+            //readOnly: true, // пробовал false и совсем без этого параметра...
+            maxLines: 10,
+            minLines: 1,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Введите таску",
           ),),
-          ListView.builder(
-            padding: const EdgeInsets.all(8),
-            itemCount: tasks.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Text(tasks[index], style: TextStyle(fontSize: 22));
-            }
+          SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: tasks.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Text(tasks[index], style: TextStyle(fontSize: 22));
+              }
+            ),
           ),
           FloatingActionButton.extended(
             onPressed: () {_incrementCounter(); },
