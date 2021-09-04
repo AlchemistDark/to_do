@@ -55,9 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
               border: OutlineInputBorder(),
               hintText: "Введите таску",
           ),),
-          SizedBox(
-            width: double.infinity,
-            height: 50,
+          Flexible(
+            //width: double.infinity,
+            //height: 50,
             child: ListView.builder(
               padding: const EdgeInsets.all(8),
               itemCount: tasks.length,
