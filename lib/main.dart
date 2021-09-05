@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-List<String> list = <String>["Tom", "Alice", "Bob", "Sam", "Kate"];
+List<String> list = <String>[];
 
 class MyApp extends StatelessWidget {
   @override
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Таскоделалка'),
     );
   }  //Widget build(BuildContext context)
 }  //class
@@ -30,13 +30,10 @@ class MyHomePage extends StatefulWidget {  // я нихрена не поним�
 class _MyHomePageState extends State<MyHomePage> {
   final List<String> tasks = list;
   
-  int _counter = 0;
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-      print("$_counter");
-      list.add("$_counter");
-    });
+  String _taskText = " ";  //Хранит текст о добавляемой таске.
+  _taskAd(text) {          //Добавляет этот текст.
+      _taskText = text;
+      list.add(_taskText);
   }
   
   @override
@@ -45,30 +42,32 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         textDirection: TextDirection.ltr,
         crossAxisAlignment: CrossAxisAlignment.start,
-        verticalDirection: VerticalDirection.down,
+        verticalDirection: VerticalDirection.up,
         children: [
-          TextField(
-            //readOnly: true, // пробовал false и совсем без этого параметра...
-            maxLines: 10,
-            minLines: 1,
+          TextField(                            //Итак проканало, TextFormFiled не пригодился.
+            controller: TextEditingController(),//Эта хрень нужна что бы чисть поле
+            //после каждого ввода.
+            onSubmitted: (text) {
+              setState(() {
+                _taskAd(text);     //Добавляет текст в список тасок
+                TextEditingController().text = " ";//Эта хрень нужна что бы чисть поле
+                                                   //после каждого ввода.
+              });
+            },
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Введите таску",
-          ),),
+            ),
+          ),
           Flexible(
-            //width: double.infinity,
-            //height: 50,
-            child: ListView.builder(
+            child: ListView.builder( //Список тасок.
               padding: const EdgeInsets.all(8),
               itemCount: tasks.length,
               itemBuilder: (BuildContext context, int index) {
-                return Text(tasks[index], style: TextStyle(fontSize: 22));
+                return Text(tasks[index], style: TextStyle(fontSize: 22)); //Это я писал? О_О
+                                                                           //Уже не помню зачем оно...
               }
             ),
-          ),
-          FloatingActionButton.extended(
-            onPressed: () {_incrementCounter(); },
-            label: Text("Добавить таску")
           ),
         ]
       )
