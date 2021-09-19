@@ -1,10 +1,12 @@
 //import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/widgets.dart';
+import 'entities/task.dart';
+import 'task_widget.dart';
 
 void main() => runApp(MyApp());
 
-List<String> list = <String>[];
+final List<Task> list = <Task>[];
 
 class MyApp extends StatelessWidget {
   @override
@@ -28,17 +30,15 @@ class MyHomePage extends StatefulWidget {  // я нихрена не поним�
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<String> tasks = list;
+  final List<Task> tasks = list;
   
-  String _taskText = " ";  //Хранит текст о добавляемой таске.
   _taskAd(text) {          //Добавляет этот текст.
-      _taskText = text;
-      list.add(_taskText);
+      list.add(text);
   }
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold (
+    return Scaffold(
       body: Column(
         textDirection: TextDirection.ltr,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(8),
               itemCount: tasks.length,
               itemBuilder: (BuildContext context, int index) {
-                return Text(tasks[index], style: TextStyle(fontSize: 22)); //Это я писал? О_О
+                return TaskWidget(selected: false, taskName: tasks[index],);//Text(tasks[index], ); //Это я писал? О_О
                                                                            //Уже не помню зачем оно...
               }
             ),
@@ -74,4 +74,5 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
 
