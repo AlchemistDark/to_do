@@ -30,11 +30,14 @@ class MyHomePage extends StatefulWidget {  // я нихрена не поним�
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Task> tasks = list;
+  final tasks = [];      //Это должен быть список всех объектов TaskWidget,
+                         //который передаётся в ListView.
   
-  _taskAd(text) {          //Добавляет этот текст.
-      list.add(text);
-  }
+  _taskAd(text) {
+    var _dT = DateTime.now();                      //генерирует уникальный ID
+    int _taskID = _dT.microsecondsSinceEpoch;      //как количество микросекунд с начала Эпохи Unix
+    print (_taskID.toString());
+    list.add(Task(_taskID, text, false));}     //Добавляет таску
   
   @override
   Widget build(BuildContext context) {
@@ -46,12 +49,11 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           TextField(                            //Итак проканало, TextFormFiled не пригодился.
             controller: TextEditingController(),//Эта хрень нужна что бы чисть поле
-            //после каждого ввода.
+                                                //после каждого ввода.
             onSubmitted: (text) {
               setState(() {
                 _taskAd(text);     //Добавляет текст в список тасок
-                TextEditingController().text = " ";//Эта хрень нужна что бы чисть поле
-                                                   //после каждого ввода.
+                TextEditingController().text = " ";//Эта хрень чистит поле после каждого ввода.
               });
             },
             decoration: InputDecoration(
