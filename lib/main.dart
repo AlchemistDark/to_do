@@ -6,8 +6,6 @@ import 'task_widget.dart';
 
 void main() => runApp(MyApp());
 
-final List<Task> list = <Task>[];
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -30,14 +28,14 @@ class MyHomePage extends StatefulWidget {  // я нихрена не поним�
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final tasks = [];      //Это должен быть список всех объектов TaskWidget,
+  final tasks = <Task>[];      //Это должен быть список всех объектов TaskWidget,
                          //который передаётся в ListView.
   
   _taskAd(text) {
     var _dT = DateTime.now();                      //генерирует уникальный ID
     int _taskID = _dT.microsecondsSinceEpoch;      //как количество микросекунд с начала Эпохи Unix
     print (_taskID.toString());
-    list.add(Task(_taskID, text, false));}     //Добавляет таску
+    tasks.add(Task(_taskID, text, false));}     //Добавляет таску
   
   @override
   Widget build(BuildContext context) {
@@ -66,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(8),
               itemCount: tasks.length,
               itemBuilder: (BuildContext context, int index) {
-                return TaskWidget(selected: false, taskName: tasks[index],);//Text(tasks[index], ); //Это я писал? О_О
+                return TaskWidget(selected: tasks[index].isDone, taskName: tasks[index].name,);//Text(tasks[index], ); //Это я писал? О_О
                                                                            //Уже не помню зачем оно...
               }
             ),
