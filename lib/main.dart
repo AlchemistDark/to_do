@@ -28,14 +28,19 @@ class MyHomePage extends StatefulWidget {  // я нихрена не поним�
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final tasks = <Task>[];      //Это должен быть список всех объектов TaskWidget,
-                         //который передаётся в ListView.
+  final tasks = <Task>[];      //Это должен быть список всех объектов Task,
+                         //который передаётся TaskWidget в ListView.
   
   _taskAd(text) {
     var _dT = DateTime.now();                      //генерирует уникальный ID
     int _taskID = _dT.microsecondsSinceEpoch;      //как количество микросекунд с начала Эпохи Unix
     print (_taskID.toString());
     tasks.add(Task(_taskID, text, false));}     //Добавляет таску
+
+  _taskChange(int taskIndex, String taskName) {
+    int _taskID = tasks[taskIndex].uid;
+    tasks[taskIndex] = Task(_taskID, taskName, true);
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -64,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(8),
               itemCount: tasks.length,
               itemBuilder: (BuildContext context, int index) {
-                return TaskWidget(selected: tasks[index].isDone, taskName: tasks[index].name,);//Text(tasks[index], ); //Это я писал? О_О
+                return TaskWidget(selected: tasks[index].isDone, taskName: tasks[index].name, callBack: _taskChange(index, tasks[index].name),);//Text(tasks[index], ); //Это я писал? О_О
                                                                            //Уже не помню зачем оно...
               }
             ),
