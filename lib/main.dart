@@ -37,9 +37,10 @@ class _MyHomePageState extends State<MyHomePage> {
     print (_taskID.toString());
     tasks.add(Task(_taskID, text, false));}     //Добавляет таску
 
-  _taskChange(int taskIndex, String taskName) {
+  _taskCBChange(int taskIndex, String taskName) {
     int _taskID = tasks[taskIndex].uid;
-    tasks[taskIndex] = Task(_taskID, taskName, true);
+    bool sel = !tasks[taskIndex].isDone;
+    tasks[taskIndex] = Task(_taskID, taskName, sel);
   }
   
   @override
@@ -69,8 +70,10 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(8),
               itemCount: tasks.length,
               itemBuilder: (BuildContext context, int index) {
-                return TaskWidget(selected: tasks[index].isDone, taskName: tasks[index].name, callBack: _taskChange(index, tasks[index].name),);//Text(tasks[index], ); //Это я писал? О_О
-                                                                           //Уже не помню зачем оно...
+                return TaskWidget(
+                  isChecked: tasks[index].isDone,
+                  taskName: tasks[index].name,
+                  callBack: _taskCBChange(index, tasks[index].name),);
               }
             ),
           ),
