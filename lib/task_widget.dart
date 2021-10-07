@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TaskWidget extends StatelessWidget{
   final bool isChecked;
   final String taskName;
-  final Function callBack;
+  final callBack;
 
   TaskWidget({Key? key, required this.isChecked, required this.taskName, required this.callBack}) : super(key: key);
 
@@ -13,7 +13,7 @@ class TaskWidget extends StatelessWidget{
         children: [
           Checkbox(
             value: isChecked,
-            onChanged: () => callBack(isChecked)),
+            onChanged: callBack),
           Expanded(child: Text(taskName, style: TextStyle(fontSize: 22))),
           // FloatingActionButton
         ]);

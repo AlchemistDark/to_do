@@ -37,11 +37,11 @@ class _MyHomePageState extends State<MyHomePage> {
     print (_taskID.toString());
     tasks.add(Task(_taskID, text, false));}     //Добавляет таску
 
-  _taskCBChange(int taskIndex, String taskName) {
-    int _taskID = tasks[taskIndex].uid;
-    bool sel = !tasks[taskIndex].isDone;
-    tasks[taskIndex] = Task(_taskID, taskName, sel);
-  }
+  //_taskCBChange(String taskName, bool isChecked) {
+    //int _taskID = tasks[taskIndex].uid;
+  //  bool sel = !isChecked;
+    //tasks[taskIndex] = Task(_taskID, taskName, sel);
+  //}
   
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 return TaskWidget(
                   isChecked: tasks[index].isDone,
                   taskName: tasks[index].name,
-                  callBack: _taskCBChange(index, tasks[index].name),);
+                  callBack: (String taskName, bool isChecked) {
+                    setState(() {
+                      isChecked = !isChecked;
+                    });
+                  }
+                );
               }
             ),
           ),
