@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 return TaskWidget(
                   isChecked: tasks[index].isDone,
                   taskName: tasks[index].name,
-                  callBack: (bool isChecked, int index) {
+                  callBack: (bool isChecked) {
                     setState(() {_taskCBChange(isChecked, index);});
                   }
                 );
