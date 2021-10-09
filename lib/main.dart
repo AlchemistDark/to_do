@@ -37,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print (_taskID.toString());
     tasks.add(Task(_taskID, text, false));}     //Добавляет таску
 
-  _taskCBChange(bool isChecked, int index) {
+  _taskCBChange(bool? isChecked, int index) {
     final Task _checkedTask = Task(tasks[index].uid, tasks[index].name, !tasks[index].isDone);
     final _checkedTasks = <Task>[_checkedTask];
     tasks.replaceRange(index, index + 1, _checkedTasks);
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 return TaskWidget(
                   isChecked: tasks[index].isDone,
                   taskName: tasks[index].name,
-                  callBack: (bool isChecked) {
+                  callBack: (bool? isChecked) {
                     setState(() {_taskCBChange(isChecked, index);});
                   }
                 );
