@@ -84,11 +84,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   isChecked: tasks[index].isDone,
                   taskName: tasks[index].name,
                   callBackChecked: (bool? isChecked) {
-                    setState(() {_taskCBChange(isChecked!, index); });  // Заменяет таск в [tasks] на копию с другим isChecked (Строка 41)
+                    setState(() {_taskCBChange(isChecked!, index);});   // Заменяет таск в [tasks] на копию с другим isChecked (Строка 41)
                                                                         // затем обновляет виджет.
                   },
-                  callBackTextChange: (String? taskName) {
-                    setState(() {_taskNameChange(taskName!, index);});   // Заменяет таск в [tasks] на копию с другим isChecked (Строка 41)
+                  callBackTextChange: ({String? taskName = "Введите текст"}) {
+                    setState(() {_taskNameChange(taskName!, index);});  // Заменяет таск в [tasks] на копию с другим isChecked (Строка 41)
                                                                         // затем обновляет виджет.
                   }
                 );
