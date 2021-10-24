@@ -24,12 +24,13 @@ class MyHomePage extends StatefulWidget {  // Я нихрена не поним�
   MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
+
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   final tasks = <Task>[];      //Это должен быть список всех объектов Task,
-                         //который передаётся TaskWidget в ListView.
+                               //который передаётся TaskWidget в ListView.
 
   /// Добавляет таск в [tasks] (строка 31).
   void _taskAd(text) {
@@ -44,6 +45,13 @@ class _MyHomePageState extends State<MyHomePage> {
     final _checkedTasks = <Task>[_checkedTask];
     tasks.replaceRange(index, index + 1, _checkedTasks);
   }
+
+  /// Заменяет таск в [tasks] на копию с другим [taskName].
+  void _taskNameChange(String taskName, int index) {
+    final Task _checkedTask = Task(tasks[index].uid, taskName, tasks[index].isDone);
+    final _checkedTasks = <Task>[_checkedTask];
+    tasks.replaceRange(index, index + 1, _checkedTasks);
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -54,13 +62,13 @@ class _MyHomePageState extends State<MyHomePage> {
         verticalDirection: VerticalDirection.up,
         children: [
           TextField(
-            controller: TextEditingController(),   //Эта хрень нужна что бы чисть поле
-                                                   //после каждого ввода.
+            controller: TextEditingController(),   // Эта хрень нужна что бы чисть поле
+                                                   // после каждого ввода.
             onSubmitted: (text) {
               setState(() {
-                _taskAd(text);                     //Добавляет таск в tasks (строка 34)
-                TextEditingController().text = " ";//Эта хрень чистит поле после каждого ввода.
-              });
+                _taskAd(text);                     // Добавляет таск в tasks (строка 34)
+                TextEditingController().text = " ";// Эта хрень чистит поле после каждого ввода.
+              });                                  // В конце setState обновляет виджет.
             },
             decoration: InputDecoration(
               border: OutlineInputBorder(),
@@ -75,10 +83,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 return TaskWidget(
                   isChecked: tasks[index].isDone,
                   taskName: tasks[index].name,
-                  callBack: (bool? isChecked) {
-                    setState(() {_taskCBChange(isChecked!, index);});
-                                    // Заменяет таск в [tasks] на копию с другим isChecked (Строка 41)
-                                    // затем обновляет виджет.
+                  callBackChecked: (bool? isChecked) {
+                    setState(() {_taskCBChange(isChecked!, index); });  // Заменяет таск в [tasks] на копию с другим isChecked (Строка 41)
+                                                                        // затем обновляет виджет.
+                  },
+                  callBackTextChange: (String? taskName) {
+                    setState(() {_taskNameChange(taskName!, index);});   // Заменяет таск в [tasks] на копию с другим isChecked (Строка 41)
+                                                                        // затем обновляет виджет.
                   }
                 );
               }
