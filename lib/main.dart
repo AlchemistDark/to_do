@@ -81,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
               itemCount: tasks.length,
               itemBuilder: (BuildContext context, int index) {
                 return TaskWidget(
+                  isEditable: false,
                   isChecked: tasks[index].isDone,
                   taskName: tasks[index].name,
                   callBackChecked: (bool? isChecked) {
