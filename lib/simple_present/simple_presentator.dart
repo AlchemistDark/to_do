@@ -13,17 +13,6 @@ class SimplePresentator{
     _px.loadAll();
   }
 
-  /*
-  void _loadAll() async{
-    final List<Task> updatedTasks = await loadTasks(_dataSource);
-    final viewModels = updatedTasks.map((task) => TaskViewModel(task.uid, task.name, task.isDone));
-    final newEvent = TasksListViewModel(viewModels.toList());
-    lastEvent = newEvent;
-    _ctrl.add(newEvent);
-  }
-  */
-
-
   /// Получает все записи.
   void loadAll() async {
     final List<String> updatedList =  await _px.loadAll();
