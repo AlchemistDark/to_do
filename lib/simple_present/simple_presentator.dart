@@ -1,35 +1,67 @@
+import 'dart:async';
+
 /// Класс представления данных.
 class SimplePresentator{
-  //allStrings = <String>[];
-  final Proxy _px = Proxy(); // Здесь хранятся все записи, полученные из _px._list.
+  final Proxy _px; // Здесь хранятся все записи, полученные из _px._list.
+  Stream<List<String>> get data => _ctrl.stream; // Создаём stream.
+  StreamController<List<String>> _ctrl = StreamController<List<String>>.broadcast(); // Создаём контроллер этого stream.
+  List<String> lastEvent = []; // Я не помню что это и зачем, или не понимаю, но зачем-то тут пустой список...
+  // Наверное это инициализация списка последних событий.
+
+  /// Конструктор класса.
+  SimplePresentator(this._px){
+    _px.loadAll();
+  }
+
+  /*
+  void _loadAll() async{
+    final List<Task> updatedTasks = await loadTasks(_dataSource);
+    final viewModels = updatedTasks.map((task) => TaskViewModel(task.uid, task.name, task.isDone));
+    final newEvent = TasksListViewModel(viewModels.toList());
+    lastEvent = newEvent;
+    _ctrl.add(newEvent);
+  }
+  */
+
+
   /// Получает все записи.
-  Future<List<String>> loadAll() async {
-    return await _px.loadAll();
+  void loadAll() async {
+    final List<String> updatedList =  await _px.loadAll();
+    final newEvent = updatedList.toList();
+    lastEvent = newEvent;
+    _ctrl.add(newEvent);
   }
   /// Создаёт запись.
-  void create(String str){
-    _px.create(str);
+  void create(String str) async {
+    final List<String> updatedList = await _px.create(str);
+    final newEvent = updatedList.toList();
+    lastEvent = newEvent;
+    _ctrl.add(newEvent);
   }
   /// Редактирует запись.
-  void edit(String oldStr, String newStr){
-    _px.edit(oldStr, newStr);
+  void edit(String oldStr, String newStr) async {
+    final List<String> updatedList = await _px.edit(oldStr, newStr);
+    final newEvent = updatedList.toList();
+    lastEvent = newEvent;
+    _ctrl.add(newEvent);
   }
   /// Удаляет запись.
-  void delete(String str){
-    _px.delete(str);
+  void delete(String str) async {
+    final List<String> updatedList = await _px.delete(str);
+    final newEvent = updatedList.toList();
+    lastEvent = newEvent;
+    _ctrl.add(newEvent);
+  }
+
+  /// Закрыть stream.
+  void discard(){
+    _ctrl.close();
   }
 }
 
 /// Хранит функции доступа к DataSource что бы не захламлять основной (SimplePresentator) класс.
 class Proxy{
   final DataSource _ds = DataSource(); // Здесь хранятся все записи, полученные из _ds._list.
-
-  /*try {
-  result = await dataSource.readAll();
-  return result;
-  } catch (e, st) {
-  print("$e, $st");
-  return [];*/
 
   /// Получает все записи.
   Future<List<String>> loadAll() async{
@@ -41,28 +73,31 @@ class Proxy{
     }
   }
   /// Создаёт запись.
-  void create(String str){
+  Future<List<String>> create(String str) async {
     try {
-      _ds.create(str);
+      return await _ds.create(str);
     } catch (e, st) {
       print("$e, $st");
+      return  <String>[];
     }
   }
   /// Редактирует запись.
-  void edit(String oldStr, String newStr){
+  Future<List<String>> edit(String oldStr, String newStr) async {
     try {
-      _ds.edit(oldStr, newStr);
+      return await _ds.edit(oldStr, newStr);
     } catch (e, st) {
       print("$e, $st");
-    };
+      return <String>[];
+    }
   }
   /// Удаляет запись.
-  void delete(String str){
+  Future<List<String>> delete(String str) async {
     try {
-      _ds.delete(str);
+      return await _ds.delete(str);
     } catch (e, st) {
       print("$e, $st");
-    };
+      return <String>[];
+    }
   }
 }
 
@@ -70,20 +105,23 @@ class Proxy{
 class DataSource{
   final _list = <String>[]; // Здесь хранятся все записи.
   /// Создаёт запись.
-  Future<void> create(String str) async {
+  Future<List<String>> create(String str) async {
     await Future.delayed(Duration(milliseconds: 50));
     _list.add(str);
+    return _list;
   }
   /// Редактирует запись.
-  Future<void> edit(String oldStr, String newStr) async {
+  Future<List<String>> edit(String oldStr, String newStr) async {
     await Future.delayed(Duration(milliseconds: 50));
     int _i = _list.indexOf(oldStr);
     _list[_i] = newStr;
+    return _list;
   }
   /// Удаляет запись.
-  Future<void> delete(String str) async {
+  Future<List<String>> delete(String str) async {
     await Future.delayed(Duration(milliseconds: 50));
     _list.remove(str);
+    return _list;
   }
   /// Выдаёт весь список записей.
   Future<List<String>> update() async {
