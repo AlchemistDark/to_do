@@ -23,20 +23,46 @@ class SimplePresentator{
 /// Хранит функции доступа к DataSource что бы не захламлять основной (SimplePresentator) класс.
 class Proxy{
   final DataSource _ds = DataSource(); // Здесь хранятся все записи, полученные из _ds._list.
+
+  /*try {
+  result = await dataSource.readAll();
+  return result;
+  } catch (e, st) {
+  print("$e, $st");
+  return [];*/
+
+  /// Получает все записи.
   Future<List<String>> loadAll() async{
-    return await _ds.update();
+    try {
+      return await _ds.update();
+    } catch (e, st) {
+      print("$e, $st");
+      return <String>[];
+    }
   }
   /// Создаёт запись.
   void create(String str){
-    _ds.create(str);
+    try {
+      _ds.create(str);
+    } catch (e, st) {
+      print("$e, $st");
+    }
   }
   /// Редактирует запись.
   void edit(String oldStr, String newStr){
-    _ds.edit(oldStr, newStr);
+    try {
+      _ds.edit(oldStr, newStr);
+    } catch (e, st) {
+      print("$e, $st");
+    };
   }
   /// Удаляет запись.
   void delete(String str){
-    _ds.delete(str);
+    try {
+      _ds.delete(str);
+    } catch (e, st) {
+      print("$e, $st");
+    };
   }
 }
 
