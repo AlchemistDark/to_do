@@ -21,7 +21,7 @@ class SimplePresentator{
     _ctrl.add(newEvent);
   }
   /// Создаёт запись.
-  void create(String str) async {
+  Future<void> create(String str) async {
     final List<String> updatedList = await _px.create(str);
     final newEvent = updatedList.toList();
     lastEvent = newEvent;
@@ -55,7 +55,7 @@ class Proxy{
   /// Получает все записи.
   Future<List<String>> loadAll() async{
     try {
-      return await _ds.update();
+      return await _ds.readAll();
     } catch (e, st) {
       print("$e, $st");
       return <String>[];
@@ -64,7 +64,8 @@ class Proxy{
   /// Создаёт запись.
   Future<List<String>> create(String str) async {
     try {
-      return await _ds.create(str);
+      _ds.create(str);
+      return await _ds.readAll();
     } catch (e, st) {
       print("$e, $st");
       return  <String>[];
@@ -73,7 +74,8 @@ class Proxy{
   /// Редактирует запись.
   Future<List<String>> edit(String oldStr, String newStr) async {
     try {
-      return await _ds.edit(oldStr, newStr);
+      _ds.edit(oldStr, newStr);
+      return await _ds.readAll();
     } catch (e, st) {
       print("$e, $st");
       return <String>[];
@@ -82,7 +84,8 @@ class Proxy{
   /// Удаляет запись.
   Future<List<String>> delete(String str) async {
     try {
-      return await _ds.delete(str);
+      _ds.delete(str);
+      return await _ds.readAll();
     } catch (e, st) {
       print("$e, $st");
       return <String>[];
@@ -94,10 +97,10 @@ class Proxy{
 class DataSource{
   final _list = <String>[]; // Здесь хранятся все записи.
   /// Создаёт запись.
-  Future<List<String>> create(String str) async {
+  Future<void> create(String str) async {
     await Future.delayed(Duration(milliseconds: 50));
     _list.add(str);
-    return _list;
+    //return _list;
   }
   /// Редактирует запись.
   Future<List<String>> edit(String oldStr, String newStr) async {
@@ -113,7 +116,7 @@ class DataSource{
     return _list;
   }
   /// Выдаёт весь список записей.
-  Future<List<String>> update() async {
+  Future<List<String>> readAll() async {
     await Future.delayed(Duration(milliseconds: 50));
     return _list;
   }
