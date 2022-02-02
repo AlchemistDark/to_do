@@ -14,7 +14,7 @@ class SimplePresentator{
   }
 
   /// Получает все записи.
-  void loadAll() async {
+  Future<void> loadAll() async {
     final List<String> updatedList =  await _px.loadAll();
     final newEvent = updatedList.toList();
     lastEvent = newEvent;
@@ -28,14 +28,14 @@ class SimplePresentator{
     _ctrl.add(newEvent);
   }
   /// Редактирует запись.
-  void edit(String oldStr, String newStr) async {
+  Future<void> edit(String oldStr, String newStr) async {
     final List<String> updatedList = await _px.edit(oldStr, newStr);
     final newEvent = updatedList.toList();
     lastEvent = newEvent;
     _ctrl.add(newEvent);
   }
   /// Удаляет запись.
-  void delete(String str) async {
+  Future<void> delete(String str) async {
     final List<String> updatedList = await _px.delete(str);
     final newEvent = updatedList.toList();
     lastEvent = newEvent;
